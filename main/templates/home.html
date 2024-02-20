@@ -1,20 +1,23 @@
-<div class="container">
-    <h1 class="display-4 text-center mt-5 mb-4">Product List</h1>
+{% extends 'base.html' %}
 
+{% block title %}Главная страница{% endblock %}
+{% load custom_filters %}
+
+
+{% block content %}
+    <h1 class="display-4 text-center mt-5 mb-4">Product List</h1>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for product in products %}
         <div class="col">
             <div class="card h-100">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                {% else %}
-                <div class="no-image-placeholder"></div>
-                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text">{{ product.description|truncatechars:100 }}</p>
                     <p class="card-text">Category: {{ product.category.name }}</p>
                     <p class="card-text">Price: ${{ product.price }}</p>
+                    {% if product.image %}
+                        <img src="{{ product.image|mediapath }}" class="card-img-top" alt="{{ product.name }}">
+                    {% endif %}
                     <a href="{% url 'product_detail' pk=product.pk %}" class="btn btn-primary">Details</a>
                 </div>
             </div>
@@ -23,5 +26,5 @@
         <p class="text-center">No products available.</p>
         {% endfor %}
     </div>
-</div>
+{% endblock %}
 
